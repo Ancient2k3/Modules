@@ -20,10 +20,8 @@ local vars = {}
 memories.cmds = {}
 memories.lang = {}
 
-local plr, characters_folder, enemies_folder
+local plr
 plr = plrs.LocalPlayer
-characters_folder = ws:WaitForChild("Characters")
-enemies_folder = ws:WaitForChild("Enemies")
 
 local screenui, commands_input, capturefocus, display_in_correct
 screenui = Instance.new("ScreenGui", core)
@@ -314,6 +312,8 @@ funcs.exit_cons = function()
     warn("[" .. memories.lang.resetui .. "]")
 end
 
+-- CALL FUNCS FROM HERE --
+
 vars.origin_walkspeed = characters_folder[plr.Name]:GetAttribute("SpeedMultiplier")
 funcs.addcmd("speed", {"speed", "sp"}, "<number or code>", function(method)
     if method == "maxium" then
@@ -344,6 +344,8 @@ funcs.addcmd("icyboots", {"icyboots", "fzw"}, "freezing water on touched :0", fu
         characters_folder[plr.Name]:SetAttribute("WaterWalking", false)
     end customfuncs.starter_ntf("Icy Boots", "Is WEAR: " .. characters_folder[plr.Name]:GetAttribute("WaterWalking"), 1.25)
 end)
+
+-- END HERE --
 
 funcs.addcmd("goto", {"goto", "to"}, "<name or code> <speed>", function(t, s)
     vars.tweening_speed = tonumber(s) or vars.tweening_speed

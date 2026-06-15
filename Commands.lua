@@ -1,5 +1,5 @@
--- BloxFruits: Commands Script --
---// Script by HoangHien //-- NEW RECREATE FOR SHARING (4F)
+-- RE:CREATE VERSION --
+-- SCRIPT BY: HoangHienXScripts --
 local ws, plrs, rls, tws, tps, rs, starter, core
 ws = game:GetService("Workspace")
 plrs = game:GetService("Players")
@@ -149,8 +149,6 @@ vars.selected_type = {
     nearest = {"nearest", "nearby", "near", "n"},
     farthest = {"farthest", "further", "far", "f"},
     randomizer = {"randomized", "randomize", "random", "r"},
-    strongest = {"strongest", "stronger", "strong", "str"},
-    weakest = {"weakest", "weaker", "weak", "wk"},
     npc = {"npc", "dummy", "doll"}
 } funcs.return_target = function(t)
     local slt = vars.selected_type
@@ -179,39 +177,6 @@ vars.selected_type = {
         local enough_enm = #plrs:GetPlayers()
         if enough_enm > 0 then
             final_result = plrs:GetPlayers()[math.random(1, enough_enm)]
-        end
-    elseif table.find(slt.strongest, t) then
-        local maxlvl_list = {}
-        for _, enm in pairs(plrs:GetPlayers()) do
-            if enm ~= plr and enm.Character and enm.Character:FindFirstChild("HumanoidRootPart") then
-                if plrs[enm.Name].Data.Level.Value >= plr.Data.Level.Value then
-                    table.insert(maxlvl_list, enm)
-                end
-            end
-        end if #maxlvl_list > 0 then
-            final_result = maxlvl_list[1]
-        end
-    elseif table.find(slt.weakest, t) then
-        local weakestlist = {}
-        for _, enm in pairs(plrs:GetPlayers()) do
-            if enm ~= plr and enm.Character and enm.Character:FindFirstChild("HumanoidRootPart") then
-                if plrs[enm.Name].Data.Level.Value <= plr.Data.Level.Value then
-                    table.insert(weakestlist, enm)
-                end
-            end
-        end if #weakestlist > 0 then
-            final_result = weakestlist[1]
-        end
-    elseif table.find(slt.noobie, t) then
-        local newbie_list = {}
-        for _, enm in pairs(plrs:GetPlayers()) do
-            if enm ~= plr and enm.Character and enm.Character:FindFirstChild("HumanoidRootPart") then
-                if plrs[enm.Name].Data.Level.Value <= 100 then
-                    table.insert(newbie_list, enm)
-                end
-            end
-        end if #newbie_list > 0 then
-            final_result = newbie_list[math.random(1, #newbie_list)]
         end
     elseif table.find(slt.npc, t) then
         for _, npc in pairs(ws:GetDescendants()) do
@@ -312,40 +277,7 @@ funcs.exit_cons = function()
     warn("[" .. memories.lang.resetui .. "]")
 end
 
--- CALL FUNCS FROM HERE --
-
-vars.origin_walkspeed = characters_folder[plr.Name]:GetAttribute("SpeedMultiplier")
-funcs.addcmd("speed", {"speed", "sp"}, "<number or code>", function(method)
-    if method == "maxium" then
-        characters_folder[plr.Name]:SetAttribute("SpeedMultiplier", 10)
-    elseif method == "minium" then
-        characters_folder[plr.Name]:SetAttribute("SpeedMultiplier", 4)
-    else
-        characters_folder[plr.Name]:SetAttribute("SpeedMultiplier", tonumber(method) or vars.origin_walkspeed)
-    end customfuncs.starter_ntf("SpeedChanged", "Current Speed: " .. method, 1.25)
-end)
-
-vars.origin_dash = characters_folder[plr.Name]:GetAttribute("DashLength")
-funcs.addcmd("dash", {"dash", "da"}, "<number or code>", function(method)
-    if method == "maxium" then
-        characters_folder[plr.Name]:SetAttribute("DashLength", 350)
-    elseif method == "minium" then
-        characters_folder[plr.Name]:SetAttribute("DashLength", 250)
-    else
-        characters_folder[plr.Name]:SetAttribute("DashLength", tonumber(method) or vars.origin_dash)
-    end customfuncs.starter_ntf("DashModified", "Dash Distance: " .. method, 1.25)
-end)
-
-vars.is_icyboots_enabled = false
-funcs.addcmd("icyboots", {"icyboots", "fzw"}, "freezing water on touched :0", function()
-    if not vars.is_icyboots_enabled then vars.is_icyboots_enabled = true
-        characters_folder[plr.Name]:SetAttribute("WaterWalking", true)
-    else
-        characters_folder[plr.Name]:SetAttribute("WaterWalking", false)
-    end customfuncs.starter_ntf("Icy Boots", "Is WEAR: " .. characters_folder[plr.Name]:GetAttribute("WaterWalking"), 1.25)
-end)
-
--- END HERE --
+-- ADD COMMAND FROM HERE --
 
 funcs.addcmd("goto", {"goto", "to"}, "<name or code> <speed>", function(t, s)
     vars.tweening_speed = tonumber(s) or vars.tweening_speed
@@ -371,6 +303,8 @@ funcs.addcmd("commands", {"commands", "cmds"}, "showing every commands i have rn
         print("[" .. memories.lang.randomstuff[2] .. i .. " ]")
     end
 end)
+
+-- END HERE --
 
 customfuncs.mb1c(capturefocus, function()
     if capturefocus.Text ~= ">" and commands_input.Position == UDim2.new(0, 0, 0.1, 0) then
@@ -412,4 +346,5 @@ connections.just_to_makesure = rs.RenderStepped:Connect(function()
     end
 end)
 
-print("Script Loaded!\nBy: HoangHien (facebook)")
+print("[Fun-Commands-Module: Loaded...]")
+return funcs

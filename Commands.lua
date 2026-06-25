@@ -440,7 +440,7 @@ funcs.addcmd("infiniteyield", {"infiniteyield", "iy"}, "open infinite yield admi
 end)
 
 funcs.addcmd("scripteditor", {"scripteditor", "exec"}, "open script editor", function()
-    requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/RobloxScript_0/refs/heads/main/Executor_V3.lua"))()
+    requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/RobloxScript_0/refs/heads/main/Executor_V2.lua"))()
 end)
 
 --// Close Section //--

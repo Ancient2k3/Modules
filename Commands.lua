@@ -344,7 +344,7 @@ end
 
 --// Commands Added Section //--
 
-funcs.addcmd("goto", {"goto", "to"}, "<name or code> <speed>", function(t, s)
+funcs.addcmd("goto", {"goto", "to"}, "tweening to a player and which speed", function(t, s)
     vars.tweening_speed = tonumber(s) or vars.tweening_speed
     local hrp = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
     if t == "?" or t == "help" then print("[Goto command helper]")
@@ -358,6 +358,54 @@ funcs.addcmd("respawn", {"respawn", "reset", "re"}, "reseting your character", f
     funcs.hmoid_setprop(plr, "Health", 0)
 end)
 
+funcs.addcmd("speed", {"speed", "ws"}, "set walk speed", function(v)
+    funcs.hmoid_setprop(plr, "WalkSpeed", tonumber(v))
+end)
+
+funcs.addcmd("jump", {"jump", "jp"}, "set jump power", function(v)
+    funcs.hmoid_setprop(plr, "JumpPower", tonumber(v))
+end)
+
+vars.my_clones = {}
+funcs.addcmd("clone", {"clone"}, "clone your character", function(name)
+    local char = plr.Character
+    if char and char.Archivable ~= true then
+        char.Archivable = true
+        local cloned_char = char:Clone()
+        cloned_char.Parent = ws
+        cloned_char.Name = name or "UNKNOWN_CLONE"
+        table.insert(vars.my_clones, cloned_char)
+    end
+end)
+
+funcs.addcmd("delclone", {"delclone", "noclone"}, "remove your clone", function(name)
+    if #vars.my_clones == 0 then return end
+    if name:lower() == "all" then
+        for i = 1, #vars.my_clones do
+            vars.my_clones[i]:Destroy()
+        end vars.my_clones = {}
+    else
+        for i = 1, #vars.my_clones do
+            local clone = vars.my_clones[i]
+            if clone.Name:lower() == name:lower() then
+                table.remove(vars.my_clones, i)
+                clone:Destroy()
+            end
+        end
+    end
+end)
+
+funcs.addcmd("clonewalkto", {"clonewalkto", "cwt"}, "make clones moving to someone", function(name)
+    if #vars.my_clones == 0 then return end
+    local t = funcs.return_target(name)
+    for i = 1, #vars.my_clones do
+        local h_moid = vars.my_clones[i].Humanoid
+        if t and t.Character then
+            h_moid.WalkToPoint = t.Character:GetBoundingBox().Position
+        end
+    end
+end)
+
 funcs.addcmd("console", {"console", "co"}, "it's open debug console", function()
     customfuncs.devconsole()
 end)
@@ -369,9 +417,10 @@ funcs.addcmd("commands", {"commands", "cmds"}, "showing every commands i have rn
         table.insert(total_cmds, i)
         print("[" .. memories.lang.randomstuff[2] .. i .. " ], [" .. v.description .. "]")
     end print("[Total: " .. #total_cmds .. " Commands!]")
+    customfuncs.devconsole()
 end)
 
-funcs.addcmd("runcommand", {"runcommand", "runcmd", "rc"}, "<cmd name> <times>", function(name, times, ...)
+funcs.addcmd("runcommand", {"runcommand", "runcmd", "rc"}, "running a command in how many times", function(name, times, ...)
     local cmds_stored, args = {}, {...}
     for i, v in pairs(memories.cmds) do
         table.insert(cmds_stored, i)
@@ -383,6 +432,15 @@ funcs.addcmd("runcommand", {"runcommand", "runcmd", "rc"}, "<cmd name> <times>",
         end
     else customfuncs.starter_ntf("💠 Notification 💠", "Command Inserted Does Not Existed!", 1.25)
     end
+end)
+
+-- Tools --
+funcs.addcmd("infiniteyield", {"infiniteyield", "iy"}, "open infinite yield admin commands", function()
+    requirescript(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/refs/heads/master/source"))()
+end)
+
+funcs.addcmd("scripteditor", {"scripteditor", "exec"}, "open script editor", function()
+    requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/RobloxScript_0/refs/heads/main/Executor_V3.lua"))()
 end)
 
 --// Close Section //--

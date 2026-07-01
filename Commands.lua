@@ -369,7 +369,7 @@ funcs.floaty = function()
                     vars.safety_pad.Position = Vector3.new(
                         hrp.Position.X, vars.floaty_pad_height, hrp.Position.Z
                     ) if hrp.Position.Y < vars.floaty_pad_height then
-                        hrp.CFrame = CFrame.new(hrp.Position.X, vars.floaty_pad_height + 3.5, hrp.Position.Z)
+                        hrp.CFrame = CFrame.new(hrp.Position.X, vars.floaty_pad_height + vars.safety_pad.Size.Y, hrp.Position.Z)
                     end
                 end
             else f_connection:Disconnect()

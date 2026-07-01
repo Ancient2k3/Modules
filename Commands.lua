@@ -375,6 +375,14 @@ funcs.floaty = function()
     end
 end
 
+funcs.reset_vars_values = function()
+    for name, value in next, vars do
+        if type(value) == "boolean" and value == true then
+            vars[name] = false
+        end
+    end vars["assets_folder"]:Destroy()
+end
+
 funcs.exit_cons = function()
     for _, con in next, connections do
         con:Disconnect()
@@ -382,6 +390,7 @@ funcs.exit_cons = function()
     end memories.functions = nil
     connections = nil
     screenui:Destroy()
+    funcs.reset_vars_values()
     warn("[" .. memories.lang.resetui .. "]")
 end
 
@@ -449,6 +458,10 @@ funcs.addcmd("clonewalkto", {"clonewalkto", "cwt"}, "make clones moving to someo
     end
 end)
 
+funcs.addcmd("float", {"float"}, "safety walking on air", function()
+    funcs.floaty()
+end)
+
 funcs.addcmd("console", {"console", "co"}, "it's open debug console", function()
     customfuncs.devconsole()
 end)
@@ -484,6 +497,12 @@ end)
 
 funcs.addcmd("scripteditor", {"scripteditor", "exec"}, "open script editor", function()
     requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/RobloxScript_0/refs/heads/main/Executor_V2.lua"))()
+end)
+
+-- Morphs --
+
+funcs.addcmd("cute", {"cute"}, "transforming into a fox girl", function()
+    requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/Tensura/refs/heads/main/avt.lua"))()
 end)
 
 --// Close Section //--

@@ -352,12 +352,13 @@ funcs.addcmd = function(name, aly, desc, func)
 end
 
 vars.is_floaty = false
+vars.floaty_pad_height = 0
 funcs.floaty = function()
     if not vars.is_floaty then vars.is_floaty = true
         local hrp = funcs.find_hrp(plr)
         if hrp then vars.safety_pad.Position = Vector3.new(
                 hrp.Position.X, hrp.Position.Y - 3.5, hrp.Position.Z
-            )
+            ) vars.floaty_pad_height = hrp.Position.Y - 3.5
         else return end
         local f_connection
         f_connection = rs.RenderStepped:Connect(function()
@@ -365,7 +366,7 @@ funcs.floaty = function()
                 hrp = funcs.find_hrp(plr)
                 if hrp then
                     vars.safety_pad.Position = Vector3.new(
-                        hrp.Position.X, vars.safety_pad.Position.Y, hrp.Position.Z
+                        hrp.Position.X, vars.floaty_pad_height, hrp.Position.Z
                     )
                 end
             else f_connection:Disconnect()
@@ -396,12 +397,20 @@ end
 
 --// Commands Added Section //--
 
-funcs.addcmd("goto", {"goto", "to"}, "tweening to a player and which speed", function(t, s)
+funcs.addcmd("goto", {"goto", "to"}, "teleport to a player", function(t)
+    local hrp = find_hrp(plr)
+    if hrp and t and t ~= "?" then
+        hrp.CFrame = CFrame.new(find_hrp(funcs.return_target(t)).Position)
+    else print("[goto <name or code>]")
+    end
+end)
+
+funcs.addcmd("tweento", {"tweento", "twto"}, "tweening to a player and which speed", function(t, s)
     vars.tweening_speed = tonumber(s) or vars.tweening_speed
-    local hrp = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
+    local hrp = find_hrp(plr)
     if t == "?" or t == "help" then print("[Goto command helper]")
         for key, keycode in pairs(vars.selected_type) do
-            print("[goto <" .. key .. " or " .. keycode[math.random(1, #keycode)] .. ">]")
+            print("[tweento <" .. key .. " or " .. keycode[math.random(1, #keycode)] .. ">]")
         end return
     end funcs.crt_tween(hrp, funcs.return_target(t).Character:FindFirstChild("HumanoidRootPart").Position)
 end)
@@ -458,8 +467,16 @@ funcs.addcmd("clonewalkto", {"clonewalkto", "cwt"}, "make clones moving to someo
     end
 end)
 
-funcs.addcmd("float", {"float"}, "safety walking on air", function()
-    funcs.floaty()
+funcs.addcmd("float", {"float"}, "safety walking on air", function(t, m)
+    if t and t:match("%d+") then
+        if m and m:match("down") then
+            vars.floaty_pad_height -= tonumber(t)
+        else
+            vars.floaty_pad_height += tonumber(t)
+        end
+    else
+        funcs.floaty()
+    end
 end)
 
 funcs.addcmd("console", {"console", "co"}, "it's open debug console", function()
@@ -502,7 +519,7 @@ end)
 -- Morphs --
 
 funcs.addcmd("cute", {"cute"}, "transforming into a fox girl", function()
-    requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/Tensura/refs/heads/main/avt.lua"))()
+    requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/Tensura/refs/heads/main/avt.luau"))()
 end)
 
 --// Close Section //--

@@ -108,6 +108,19 @@ display_in_correct.Text = "</>"
 display_in_correct.Visible = true
 customfuncs.addcorner(display_in_correct, 0.2)
 
+vars.assets_folder = Instance.new("Folder", ws)
+vars.assets_folder.Name = screenui.Name .. ":Assets"
+
+vars.safety_pad = Instance.new("Part", vars.assets_folder)
+vars.safety_pad.Name = "Space:Pad"
+vars.safety_pad.Transparency = 0.95
+vars.safety_pad.Anchored = true
+vars.safety_pad.CanCollide = true
+vars.safety_pad.CastShadow = false
+vars.safety_pad.Color = Color3.fromRGB(0, 255, 255)
+vars.safety_pad.Size = Vector3.new(20, 0.2, 20)
+vars.safety_pad.Position = Vector3.new(0, 999999, 0)
+
 --// Functions Section //--
 memories.functions = {}
 local funcs, connections = memories.functions, {}
@@ -129,8 +142,14 @@ funcs.checkprop = function(o, prop)
 end
 
 funcs.find_hmoid = function(t)
-    local hmoid = t.Character and t.Character:FindFirstChildOfClass("Humanoid") or t:FindFirstChildOfClass("Humanoid")
+    local hmoid = t and t.Character and t.Character:FindFirstChildOfClass("Humanoid") or t:FindFirstChildOfClass("Humanoid")
     if hmoid then return hmoid end
+    return false
+end
+
+funcs.find_hrp = function(t)
+    local hrp = t and t.Character and t.Character:FindFirstChild("HumanoidRootPart") or t:FindFirstChild("HumanoidRootPart")
+    if hrp then return hrp end
     return false
 end
 
@@ -329,6 +348,30 @@ funcs.addcmd = function(name, aly, desc, func)
             description = desc,
             callback_func = func
         }
+    end
+end
+
+vars.is_floaty = false
+funcs.floaty = function()
+    if not vars.is_floaty then vars.is_floaty = true
+        local hrp = funcs.find_hrp(plr)
+        if hrp then vars.safety_pad.Position = Vector3.new(
+                hrp.Position.X, hrp.Position.Y - 3.5, hrp.Position.Z
+            )
+        else return end
+        local f_connection
+        f_connection = rs.RenderStepped:Connect(function()
+            if vars.is_floaty then
+                hrp = funcs.find_hrp(plr)
+                if hrp then
+                    vars.safety_pad.Position = Vector3.new(
+                        hrp.Position.X, vars.safety_pad.Position.Y, hrp.Position.Z
+                    )
+                end
+            else f_connection:Disconnect()
+            end
+        end)
+    else vars.is_floaty = false
     end
 end
 

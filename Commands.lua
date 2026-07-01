@@ -113,12 +113,13 @@ vars.assets_folder.Name = screenui.Name .. ":Assets"
 
 vars.safety_pad = Instance.new("Part", vars.assets_folder)
 vars.safety_pad.Name = "Space:Pad"
-vars.safety_pad.Transparency = 0.95
+vars.safety_pad.Material = "Grass"
+vars.safety_pad.Transparency = 0.98
 vars.safety_pad.Anchored = true
 vars.safety_pad.CanCollide = true
 vars.safety_pad.CastShadow = false
 vars.safety_pad.Color = Color3.fromRGB(0, 255, 255)
-vars.safety_pad.Size = Vector3.new(20, 0.2, 20)
+vars.safety_pad.Size = Vector3.new(5, 0.2, 5)
 vars.safety_pad.Position = Vector3.new(0, 999999, 0)
 
 --// Functions Section //--
@@ -367,7 +368,9 @@ funcs.floaty = function()
                 if hrp then
                     vars.safety_pad.Position = Vector3.new(
                         hrp.Position.X, vars.floaty_pad_height, hrp.Position.Z
-                    )
+                    ) if hrp.Position.Y < vars.floaty_pad_height then
+                        hrp.CFrame = CFrame.new(hrp.Position.X, vars.floaty_pad_height + 3.5, hrp.Position.Z)
+                    end
                 end
             else f_connection:Disconnect()
             end
@@ -562,7 +565,7 @@ connections.just_to_makesure = rs.RenderStepped:Connect(function()
             funcs.body_velocity(hrp, "remove")
         end
     else
-        funcs.body_velocity(hrp, "remove")
+        if hrp then funcs.body_velocity(hrp, "remove") end
     end
 end)
 

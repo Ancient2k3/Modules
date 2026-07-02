@@ -373,6 +373,7 @@ funcs.floaty = function()
                     end
                 end
             else f_connection:Disconnect()
+                vars.safety_pad.Position = Vector3.new(0, 999999, 0)
             end
         end)
     else vars.is_floaty = false
@@ -401,21 +402,21 @@ end
 --// Commands Added Section //--
 
 funcs.addcmd("goto", {"goto", "to"}, "teleport to a player", function(t)
-    local hrp = find_hrp(plr)
+    local hrp = funcs.find_hrp(plr)
     if hrp and t and t ~= "?" then
-        hrp.CFrame = CFrame.new(find_hrp(funcs.return_target(t)).Position)
+        hrp.CFrame = CFrame.new(funcs.find_hrp(funcs.return_target(t)).Position)
     else print("[goto <name or code>]")
     end
 end)
 
 funcs.addcmd("tweento", {"tweento", "twto"}, "tweening to a player and which speed", function(t, s)
     vars.tweening_speed = tonumber(s) or vars.tweening_speed
-    local hrp = find_hrp(plr)
+    local hrp = funcs.find_hrp(plr)
     if t == "?" or t == "help" then print("[Goto command helper]")
         for key, keycode in pairs(vars.selected_type) do
             print("[tweento <" .. key .. " or " .. keycode[math.random(1, #keycode)] .. ">]")
         end return
-    end funcs.crt_tween(hrp, funcs.return_target(t).Character:FindFirstChild("HumanoidRootPart").Position)
+    end funcs.crt_tween(hrp, funcs.find_hrp(funcs.return_target(t)).Position)
 end)
 
 funcs.addcmd("respawn", {"respawn", "reset", "re"}, "reseting your character", function()

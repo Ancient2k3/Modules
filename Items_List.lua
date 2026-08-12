@@ -25,7 +25,7 @@ x.CanvasSize = UDim2.new(0, 0, 0, 0)
 x.ScrollBarThickness = 0.01
 x.Visible = false
 x.ZIndex = 1
-ui_t.add_corner(x, 0.15)
+ui_t.add_corner(x, 0.005)
 
 ui_t.show_list = false
 

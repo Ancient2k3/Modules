@@ -31,7 +31,7 @@ ui_t.show_list = false
 
 local z = ui_t.toggle
 z.Name = "Items_List_T#" .. tostring(math.random(9000, 18000))
-z.BackgroundTransparency = 0.5
+z.BackgroundTransparency = 0.25
 z.BackgroundColor3 = Color3.new(0, 0, 0)
 z.Position = UDim2.new(0.005, 0, 0.175, 0)
 z.Size = UDim2.new(0.038, 0, 0.06, 0)

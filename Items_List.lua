@@ -6,7 +6,7 @@ for _, item in next, core:GetChildren() do
   end
 end
 
-local ui_t = {}
+local ui_t, btn_module = {}, {}
 ui_t.screen = Instance.new("ScreenGui", core)
 ui_t.screen.Name = "_Acy:Items_List_Module"
 ui_t.scroll = Instance.new("ScrollingFrame", ui_t.screen)
@@ -48,8 +48,27 @@ ui_t.canvas = 0
 ui_t.height = 10
 ui_t.padding = 2
 ui_t.count = 0
+ui_t.next_pos = 0
 
-function add_button(txt, func)
+btn_module.scroll = x
+
+btn_module.clear_buttons = function()
+  local anything = x:GetChildren()
+  if #anything > 0 then
+    for _, btn in next, anything do
+      if btn:IsA("TextButton") then
+        btn:Destroy()
+      end
+    end x.CanvasSize = UDim2.new(0, 0, 0, 0)
+    ui_t.canvas = 0
+    ui_t.height = 10
+    ui_t.padding = 2
+    ui_t.count = 0
+    ui_t.next_pos = 0
+  end
+end
+
+btn_module.add_button = function(txt, func)
   if txt and func and type(txt) == "string" and type(func) == "function" then
     local btn = Instance.new("TextButton", x)
     ui_t.count = ui_t.count + 1
@@ -65,7 +84,9 @@ function add_button(txt, func)
     btn.Text = txt
     btn.Visible = true
     btn.MouseButton1Click:Connect(func)
+    ui_t.next_pos = ui_t.next_pos + 12
     ui_t.canvas = ui_t.canvas + ui_t.height + ui_t.padding
+    btn:SetAttribute("BTN_POS", ui_t.next_pos)
     x.CanvasSize = UDim2.new(0, 0, 0, ui_t.canvas)
   else
     return "arg #1 must be a string and arg #2 must be a function"
@@ -82,4 +103,4 @@ z.MouseButton1Click:Connect(function()
   end
 end)
 
-return add_button
+return btn_module

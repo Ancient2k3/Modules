@@ -15,6 +15,10 @@ ui_t.add_corner = function(t, r)
   Instance.new("UICorner", t).CornerRadius = UDim.new(r, 0)
 end
 
+ui_t.cant_be_negative = function(t)
+  if t < 0 then return 0 end return t
+end
+
 local x = ui_t.scroll
 x.Name = "Items_List#" .. tostring(math.random(2000, 8000))
 x.BackgroundTransparency = 0.5
@@ -86,7 +90,7 @@ btn_module.add_button = function(txt, func)
     btn.MouseButton1Click:Connect(func)
     ui_t.next_pos = ui_t.next_pos + 12
     ui_t.canvas = ui_t.canvas + ui_t.height + ui_t.padding
-    btn:SetAttribute("BTN_POS", ui_t.next_pos)
+    btn:SetAttribute("BTN_POS", ui_t.cant_be_negative(ui_t.next_pos - 12))
     x.CanvasSize = UDim2.new(0, 0, 0, ui_t.canvas)
   else
     return "arg #1 must be a string and arg #2 must be a function"

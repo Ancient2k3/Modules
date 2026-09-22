@@ -516,6 +516,14 @@ funcs.addcmd("infiniteyield", {"infiniteyield", "iy"}, "open infinite yield admi
     requirescript(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/refs/heads/master/source"))()
 end)
 
+funcs.addcmd("remotespy", {"remotespy", "rspy"}, "old remote spy", function()
+    requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/RobloxScript/refs/heads/item/Remote_Spy_For_Mobile"))()
+end)
+
+funcs.addcmd("explorer", {"explorer", "dex"}, "old dex explorer", function()
+    requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/RobloxScript/refs/heads/item/Dex_Explorer_For_Mobile"))()
+end)
+
 funcs.addcmd("scripteditor", {"scripteditor", "exec"}, "open script editor", function()
     requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/RobloxScript_0/refs/heads/main/Executor_V2.lua"))()
 end)

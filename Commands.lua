@@ -516,6 +516,10 @@ funcs.addcmd("infiniteyield", {"infiniteyield", "iy"}, "open infinite yield admi
     requirescript(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/refs/heads/master/source"))()
 end)
 
+funcs.addcmd("cobalt", {"cobalt", "cspy"}, "new type of remote spy", function()
+    requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/DetectTool/refs/heads/main/Cobalt_Resize_Mobile.lua"))()
+end)
+
 funcs.addcmd("remotespy", {"remotespy", "rspy"}, "old remote spy", function()
     requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/RobloxScript/refs/heads/item/Remote_Spy_For_Mobile"))()
 end)

@@ -538,6 +538,20 @@ funcs.addcmd("cute", {"cute"}, "transforming into a fox girl", function()
     requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/Tensura/refs/heads/main/avt.luau"))()
 end)
 
+funcs.addcmd("spawn", {"spawn"}, "spawn a player model", function(v)
+    local hrp = find_hrp(plr)
+    if hrp then
+        local a, b, c
+        a, b = pcall(function()
+            c = plrs:CreateHumanoidModelFromUserIdAsync(plrs:GetUserIdFromNameAsync(v))
+        end) if c then
+            c.Parent = ws
+            c.Name = v or "?"
+            c.HumanoidRootPart.CFrame = hrp.CFrame
+        end
+    end
+end)
+
 --// Close Section //--
 -- [AC] --
 --// Make Connections //--

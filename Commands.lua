@@ -511,7 +511,7 @@ funcs.addcmd("runcommand", {"runcommand", "runcmd", "rc"}, "running a command in
     end
 end)
 
--- Tools --
+-- Dev Tools --
 funcs.addcmd("infiniteyield", {"infiniteyield", "iy"}, "open infinite yield admin commands", function()
     requirescript(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/refs/heads/master/source"))()
 end)
@@ -532,21 +532,31 @@ funcs.addcmd("scripteditor", {"scripteditor", "exec"}, "open script editor", fun
     requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/RobloxScript_0/refs/heads/main/Executor_V2.lua"))()
 end)
 
--- Morphs --
+-- Fun Tools --
+funcs.addcmd("beam", {"beam"}, "shoot a reflection lazer beam", function()
+    requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/DetectTool/refs/heads/main/BEAM"))()
+end)
 
+funcs.addcmd("minecraft", {"minecraft", "mc"}, "get your minecraft btools", function()
+    requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/DetectTool/refs/heads/main/mc_script.lua"))()
+end)
+
+-- Morphs --
 funcs.addcmd("cute", {"cute"}, "transforming into a fox girl", function()
     requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/Tensura/refs/heads/main/avt.luau"))()
+    print("[!]: Morphed "..plr.DisplayName.." into a cute girl...")
 end)
 
 funcs.addcmd("spawn", {"spawn"}, "spawn a player model", function(v)
     local hrp = find_hrp(plr)
-    if hrp then
+    if hrp then v = tostring(v)
         local a, b, c
         a, b = pcall(function()
             c = plrs:CreateHumanoidModelFromUserIdAsync(plrs:GetUserIdFromNameAsync(v))
         end) if c then
             c.Parent = ws
             c.Name = v or "?"
+            task.wait(0.5)
             c.HumanoidRootPart.CFrame = hrp.CFrame
         end
     end

@@ -548,7 +548,7 @@ funcs.addcmd("cute", {"cute"}, "transforming into a fox girl", function()
 end)
 
 funcs.addcmd("spawn", {"spawn"}, "spawn a player model", function(v)
-    local hrp = find_hrp(plr)
+    local hrp = funcs.find_hrp(plr)
     if hrp then v = tostring(v)
         local a, b, c
         a, b = pcall(function()
@@ -558,6 +558,7 @@ funcs.addcmd("spawn", {"spawn"}, "spawn a player model", function(v)
             c.Name = v or "?"
             task.wait(0.5)
             c.HumanoidRootPart.CFrame = hrp.CFrame
+            table.insert(vars.my_clones, c)
         end
     end
 end)

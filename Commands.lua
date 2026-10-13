@@ -534,7 +534,7 @@ end)
 
 -- Fun Tools --
 funcs.addcmd("beam", {"beam"}, "shoot a reflection lazer beam", function()
-    requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/DetectTool/refs/heads/main/BEAM"))()
+    requirescript(game:HttpGet("https://raw.githubusercontent.com/Ancient2k3/DetectTool/refs/heads/main/BEAM.lua"))()
 end)
 
 funcs.addcmd("minecraft", {"minecraft", "mc"}, "get your minecraft btools", function()

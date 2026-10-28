@@ -402,25 +402,11 @@ end
 --// Commands Added Section //--
 
 vars.esp_en = false
+vars.esp_func = requirescript(game:HttpGet("https://raw.githubusercontent.com/HoangHienXScripts/Modules/refs/heads/main/esp.lua"))()
 funcs.addcmd("esp", {"esp"}, "esp players", function()
-    local run_esp
-    run_esp = function()
-        if not _G.Esp_module then
-            local success, out = pcall(function()
-                return loadstring(game:HttpGet("https://raw.githubusercontent.com/HoangHienXScripts/Modules/refs/heads/main/esp.lua"))()
-            end) if success then
-                _G.Esp_module = out
-            else
-                _G.Esp_module = {esp = function(...) print("[Esp Module: Doesn't Exist...]") return ... end}
-            end run_esp()
-        else
-            local _mdl = _G.Esp_module
-            if not vars.esp_en then
-                _mdl.esp("enable")
-            else _mdl.esp("disable")
-            end vars.esp_en = not vars.esp_en
-        end
-    end
+    if not vars.esp_en then vars.esp_func.esp("enable")
+    else vars.esp_func.esp("disable")
+    end vars.esp_en = not vars.esp_en
 end)
 
 funcs.addcmd("goto", {"goto", "to"}, "teleport to a player", function(t)
